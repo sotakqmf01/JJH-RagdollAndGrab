@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "JJH_Corpse.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class RAGDOLLANDGRAB_API AJJH_Corpse : public AActor
 {
@@ -14,10 +16,14 @@ class RAGDOLLANDGRAB_API AJJH_Corpse : public AActor
 public:	
 	AJJH_Corpse();
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 	virtual void BeginPlay() override;
 
-public:	
-	virtual void Tick(float DeltaTime) override;
-
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	TObjectPtr<UBoxComponent> RootBox;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
 };
