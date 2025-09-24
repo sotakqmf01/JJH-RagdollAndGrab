@@ -16,7 +16,12 @@ class RAGDOLLANDGRAB_API AJJH_Corpse : public AActor
 public:	
 	AJJH_Corpse();
 
-	virtual void Tick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+	void Server_RagdollOn();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+	void Multicast_RagdollOn();
 
 protected:
 	virtual void BeginPlay() override;
@@ -26,4 +31,10 @@ public:
 	TObjectPtr<UBoxComponent> RootBox;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
+
+	UPROPERTY(Replicated)
+	FTransform BoneTransform;
+
+	bool bIsRagdoll;
+	FTimerHandle TimerHandle;
 };
